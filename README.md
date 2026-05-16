@@ -1,75 +1,124 @@
-﻿# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# eTroy OIDC UI
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Frontend application for the **eTroy OpenID Connect (OIDC)** platform.
 
-## React Compiler
+This project provides the user-facing and admin-facing interfaces for authentication and identity-related workflows in the eTroy ecosystem, including login, registration, email verification, password reset, account profile, and admin operations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19**
+- **TypeScript**
+- **Vite**
+- **React Router**
+- **Axios**
+- **ESLint**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Key Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Authentication flows:
+  - Login
+  - Registration
+  - Email verification result
+  - Resend verification
+  - Forgot/reset password
+  - Account error handling
+- Internal support page:
+  - `/support` (eTroy Platform Support)
+- User area:
+  - Profile page (`/`)
+- Admin area (guarded routes):
+  - Overview
+  - Users
+  - Clients
+  - Sessions
+  - Audit
+  - Observability
+  - Keys
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+  app/                 # App shell and router
+  config/              # App configuration (e.g., admin access config)
+  features/            # Domain modules (auth, admin, user)
+  pages/               # Route-level pages (auth, user, admin)
+  shared/              # Reusable APIs, components, and layouts
+  styles/              # Global styles and design tokens
+public/                # Static assets
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Requirements
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Node.js 18+** (recommended: latest LTS)
+- **npm 9+**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Environment Variables
+
+Create a `.env` file in the project root (optional if using defaults):
+
+```env
+VITE_API_BASE_URL=http://localhost:3000
 ```
-# eTroy_OIDC_UI
+
+If not provided, the app defaults to `http://localhost:3000`.
+
+## Installation
+
+```bash
+npm install
+```
+
+## Run Locally
+
+```bash
+npm run dev
+```
+
+Default Vite dev server:
+- `http://localhost:5173`
+
+## Build and Preview
+
+```bash
+npm run build
+npm run preview
+```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Routing Overview
+
+Main routes configured in `src/app/router.tsx`:
+
+- `/login`
+- `/register`
+- `/register/success`
+- `/resend-verification`
+- `/verify-email/result`
+- `/forgot-password`
+- `/reset-password`
+- `/account/error`
+- `/support`
+- `/` (profile)
+- `/admin/*` (admin module, guarded)
+
+## API Integration
+
+HTTP client is configured in `src/shared/api/apiClient.ts` with:
+
+- `withCredentials: true` for OIDC session cookies
+- `Content-Type: application/json`
+- Request/response interceptors with sensitive field redaction for safe logging
+
+## Notes
+
+- This repository is focused on the UI layer for eTroy OIDC.
+- Admin access behavior is currently controlled by `src/config/admin.ts` and should be replaced by proper role claims/scopes in production.
 
