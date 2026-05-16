@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import { Activity, AlertCircle, Clock, User, HardDrive } from 'lucide-react';
+import type { AdminAuditLog } from '../../features/admin/admin.types';
 
 const AdminAuditPage: React.FC = () => {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<AdminAuditLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       setLoading(true);
       const data = await adminApi.listAuditLogs();
       setLogs(data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to load audit logs. Ensure management services are online.');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchLogs();
-  }, []);
+    void Promise.resolve().then(fetchLogs);
+  }, [fetchLogs]);
 
   const getSeverityStyle = (severity: string) => {
     switch (severity.toLowerCase()) {

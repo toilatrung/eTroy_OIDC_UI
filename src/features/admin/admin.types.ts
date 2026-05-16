@@ -59,3 +59,39 @@ export interface AdminPlatformStats {
   clientCount?: number;
   activeSessionCount?: number;
 }
+
+export interface AdminAuditLog {
+  id: string;
+  eventType: string;
+  occurredAt: string;
+  severity: 'critical' | 'warning' | 'info' | string;
+  outcome: 'success' | 'failure' | string;
+  actor?: {
+    adminSub?: string;
+    sub?: string;
+    type?: string;
+  };
+  subject?: {
+    type?: string;
+    sub?: string;
+    clientId?: string;
+  };
+}
+
+export interface AdminSessionView {
+  sessionId: string;
+  subject: string;
+  clientIds: string[];
+  status: 'active' | 'disabled' | 'expired' | string;
+  lastSeenAt: string;
+}
+
+export interface JwksResponse {
+  keys?: unknown[];
+  [key: string]: unknown;
+}
+
+export interface HealthResponse {
+  status?: string;
+  [key: string]: unknown;
+}

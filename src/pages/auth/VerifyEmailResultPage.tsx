@@ -21,7 +21,7 @@ const VerifyEmailResultPage: React.FC = () => {
       try {
         await authApi.confirmVerification(token);
         setSuccess(true);
-      } catch (err) {
+      } catch {
         // Silently fail as we show the error state via the success=false flag
       } finally {
         setIsLoading(false);

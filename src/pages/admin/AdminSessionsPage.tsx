@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import { Shield, Clock, XCircle, AlertCircle } from 'lucide-react';
+import type { AdminSessionView } from '../../features/admin/admin.types';
 
 const AdminSessionsPage: React.FC = () => {
-  const [sessions, setSessions] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<AdminSessionView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchSessions = async () => {
+  const fetchSessions = useCallback(async () => {
     try {
       setLoading(true);
       const data = await adminApi.listSessions();
       setSessions(data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to load active sessions. Verify management services are online.');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchSessions();
-  }, []);
+    void Promise.resolve().then(fetchSessions);
+  }, [fetchSessions]);
 
   return (
     <div className="admin-sessions">
@@ -83,7 +84,7 @@ const AdminSessionsPage: React.FC = () => {
                   </td>
                   <td style={{ padding: '1.25rem 1.5rem' }}>
                     <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
-                      {session.clientIds.map((cid: string) => (
+                      {session.clientIds.map((cid) => (
                         <span key={cid} style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem', backgroundColor: 'var(--color-bg-subtle)', borderRadius: '4px', border: '1px solid var(--color-border)' }}>{cid}</span>
                       ))}
                     </div>

@@ -6,7 +6,11 @@ import type {
   AdminClientView, 
   AdminClientWithSecret, 
   AdminCreateClientInput, 
-  AdminUpdateClientInput
+  AdminUpdateClientInput,
+  AdminAuditLog,
+  AdminSessionView,
+  HealthResponse,
+  JwksResponse
 } from './admin.types';
 
 /**
@@ -24,12 +28,12 @@ const getAdminHeaders = (adminSub?: string) => ({
 export const adminApi = {
   // --- Platform / Observability ---
   getHealth: async () => {
-    const response = await apiClient.get('/health');
+    const response = await apiClient.get<HealthResponse>('/health');
     return response.data;
   },
   
   getReadiness: async () => {
-    const response = await apiClient.get('/ready');
+    const response = await apiClient.get<HealthResponse>('/ready');
     return response.data;
   },
 
@@ -147,13 +151,13 @@ export const adminApi = {
 
   // --- JWKS / Key Rotation ---
   getJwks: async () => {
-    const response = await apiClient.get('/jwks');
+    const response = await apiClient.get<JwksResponse>('/jwks');
     return response.data;
   },
 
   // --- Audit Logs ---
   listAuditLogs: async (adminSub?: string) => {
-    const response = await apiClient.get<{ data: any[] }>('/admin/audit-logs', {
+    const response = await apiClient.get<{ data: AdminAuditLog[] }>('/admin/audit-logs', {
       headers: getAdminHeaders(adminSub),
     });
     return response.data.data;
@@ -161,7 +165,7 @@ export const adminApi = {
 
   // --- Sessions / Token Controls ---
   listSessions: async (adminSub?: string) => {
-    const response = await apiClient.get<{ data: any[] }>('/admin/sessions', {
+    const response = await apiClient.get<{ data: AdminSessionView[] }>('/admin/sessions', {
       headers: getAdminHeaders(adminSub),
     });
     return response.data.data;

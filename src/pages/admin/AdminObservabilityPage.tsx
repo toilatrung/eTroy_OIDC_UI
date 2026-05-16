@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import { Server, Database, Zap, AlertCircle, BarChart3 } from 'lucide-react';
+import type { HealthResponse } from '../../features/admin/admin.types';
 
 const AdminObservabilityPage: React.FC = () => {
-  const [health, setHealth] = useState<any>(null);
+  const [health, setHealth] = useState<HealthResponse | null>(null);
   const [metrics, setMetrics] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +17,7 @@ const AdminObservabilityPage: React.FC = () => {
         ]);
         setHealth(h);
         setMetrics(m);
-      } catch (error) {
+      } catch {
         console.error('Failed to fetch observability data');
       } finally {
         setLoading(false);

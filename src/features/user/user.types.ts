@@ -20,6 +20,15 @@ export interface ChangePasswordPayload {
   newPassword: string;
 }
 
+export interface ConnectedApplication {
+  clientId: string;
+  clientName?: string;
+  scopes: string[];
+  grantedAt?: string;
+  updatedAt?: string;
+  lastUsedAt?: string;
+}
+
 export interface ApiResponse<T> {
   data: T;
 }

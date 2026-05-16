@@ -29,7 +29,7 @@ const ResendVerificationPage: React.FC = () => {
       // it confirms the implementation gap mentioned in the TODO.
       await authApi.requestVerification(email.trim());
       setSuccess(true);
-    } catch (err) {
+    } catch {
       // Neutral success message to avoid account enumeration even on error
       setSuccess(true);
     } finally {

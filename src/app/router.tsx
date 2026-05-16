@@ -6,6 +6,7 @@ import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import AccountErrorPage from '../pages/auth/AccountErrorPage';
 import PlatformSupportPage from '../pages/auth/PlatformSupportPage';
+import ConsentPage from '../pages/auth/ConsentPage';
 
 import RegistrationSuccessPage from '../pages/auth/RegistrationSuccessPage';
 import ResendVerificationPage from '../pages/auth/ResendVerificationPage';
@@ -24,6 +25,18 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/oidc/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/consent',
+    element: <ConsentPage />,
+  },
+  {
+    path: '/oidc/consent',
+    element: <ConsentPage />,
   },
   {
     path: '/register',
