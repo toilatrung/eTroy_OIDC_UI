@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import type { AdminClientView } from '../../features/admin/admin.types';
 import { Plus, Copy, AlertTriangle, RotateCw } from 'lucide-react';
@@ -13,22 +13,22 @@ const AdminClientsPage: React.FC = () => {
   const [newClientData, setNewClientData] = useState({ name: '', redirectUris: '' });
   const [createdSecret, setCreatedSecret] = useState<string | null>(null);
 
-  const fetchClients = async () => {
+  const fetchClients = useCallback(async () => {
     try {
       setLoading(true);
       const data = await adminApi.listClients();
       setClients(data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to load OIDC clients. Verify admin permissions.');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchClients();
-  }, []);
+    void Promise.resolve().then(fetchClients);
+  }, [fetchClients]);
 
   const handleCreateClient = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,8 +38,8 @@ const AdminClientsPage: React.FC = () => {
         redirectUris: newClientData.redirectUris.split(',').map(s => s.trim()).filter(Boolean),
       });
       setCreatedSecret(result.clientSecret);
-      fetchClients();
-    } catch (err) {
+      void fetchClients();
+    } catch {
       alert('Failed to create client. Verify client name and redirect URIs.');
     }
   };
@@ -50,8 +50,8 @@ const AdminClientsPage: React.FC = () => {
       const result = await adminApi.rotateClientSecret(clientId);
       setCreatedSecret(result.clientSecret);
       setShowCreateModal(true);
-      fetchClients();
-    } catch (err) {
+      void fetchClients();
+    } catch {
       alert('Failed to rotate secret.');
     }
   };
@@ -66,8 +66,8 @@ const AdminClientsPage: React.FC = () => {
       } else {
         await adminApi.enableClient(clientId);
       }
-      fetchClients();
-    } catch (err) {
+      void fetchClients();
+    } catch {
       alert('Failed to update client status.');
     }
   };

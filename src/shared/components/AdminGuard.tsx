@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { userApi } from '../../features/user/user.api';
 import type { UserProfile } from '../../features/user/user.types';
 
@@ -11,13 +11,14 @@ const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const userData = await userApi.getMe();
         setUser(userData);
-      } catch (error) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -74,7 +75,7 @@ const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
           You do not have the required administrative privileges to access the Management Platform.
         </p>
         <button 
-          onClick={() => window.location.href = '/'}
+          onClick={() => navigate('/')}
           style={{ 
             padding: '0.75rem 1.5rem', 
             backgroundColor: 'var(--color-text-main)', 

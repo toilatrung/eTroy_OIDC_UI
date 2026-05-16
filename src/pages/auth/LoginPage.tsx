@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import Alert from '../../shared/components/Alert';
 import { authApi } from '../../features/auth/auth.api';
 import { mapError, getSafeMessage } from '../../shared/api/apiError';
+import { mapOidcError, oidcApi } from '../../features/oidc/oidc.api';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const interactionId = searchParams.get('interaction_id')?.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,10 +23,38 @@ const LoginPage: React.FC = () => {
 
     try {
       await authApi.login({ email: email.trim(), password });
-      navigate('/'); 
     } catch (err) {
       const apiErr = mapError(err);
       setError(getSafeMessage(apiErr));
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      if (interactionId) {
+        const interaction = await oidcApi.getInteraction(interactionId);
+
+        if (interaction.redirectUrl) {
+          window.location.assign(interaction.redirectUrl);
+          return;
+        }
+
+        if (interaction.requiresConsent) {
+          navigate(`/oidc/consent?interaction_id=${encodeURIComponent(interaction.interactionId)}`);
+          return;
+        }
+      }
+
+      navigate('/');
+    } catch (err) {
+      const oidcError = mapOidcError(err);
+
+      if (oidcError.redirectUrl) {
+        window.location.assign(oidcError.redirectUrl);
+        return;
+      }
+
+      setError(oidcError.message);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +111,7 @@ const LoginPage: React.FC = () => {
         </div>
         
         <Button type="submit" isLoading={isLoading} variant="primary">
-          Sign in
+          {interactionId ? 'Sign in and continue' : 'Sign in'}
         </Button>
       </form>
       

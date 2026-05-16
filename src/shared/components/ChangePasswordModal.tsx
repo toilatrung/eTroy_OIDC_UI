@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from './Button';
 import Input from './Input';
 import Alert from './Alert';
@@ -45,9 +46,13 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       setConfirmPassword('');
       onSuccess('Password changed successfully.');
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = axios.isAxiosError(err)
+        ? err.response?.data?.error?.message
+        : undefined;
+
       setError(
-        err.response?.data?.error?.message || 
+        message ||
         'We could not change your password. Check your current password and try again.'
       );
     } finally {

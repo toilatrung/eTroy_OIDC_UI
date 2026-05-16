@@ -1,35 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import { Activity, ShieldCheck, Settings, CheckCircle2, AlertCircle } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const AdminOverviewPage: React.FC = () => {
-  const [stats, setStats] = useState({
-    health: 'loading',
-    readiness: 'loading',
-    clients: 'loading',
-  });
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: LucideIcon;
+  color: string;
+  chipBg: string;
+  description: string;
+}
 
-  useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const health = await adminApi.getHealth();
-        const readiness = await adminApi.getReadiness();
-        const clients = await adminApi.listClients();
-
-        setStats({
-          health: health.status === 'UP' ? 'healthy' : 'degraded',
-          readiness: readiness.status === 'READY' ? 'ready' : 'not-ready',
-          clients: clients.length.toString(),
-        });
-      } catch (error) {
-        setStats(prev => ({ ...prev, health: 'error', readiness: 'error' }));
-      }
-    };
-
-    fetchStatus();
-  }, []);
-
-  const StatCard = ({ title, value, icon: Icon, color, chipBg, description }: any) => (
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color, chipBg, description }) => (
     <div style={{ 
       backgroundColor: 'var(--color-surface)', 
       padding: '1.5rem', 
@@ -56,6 +39,33 @@ const AdminOverviewPage: React.FC = () => {
       <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--color-text-subtle)' }}>{description}</p>
     </div>
   );
+
+const AdminOverviewPage: React.FC = () => {
+  const [stats, setStats] = useState({
+    health: 'loading',
+    readiness: 'loading',
+    clients: 'loading',
+  });
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const health = await adminApi.getHealth();
+        const readiness = await adminApi.getReadiness();
+        const clients = await adminApi.listClients();
+
+        setStats({
+          health: health.status === 'UP' ? 'healthy' : 'degraded',
+          readiness: readiness.status === 'READY' ? 'ready' : 'not-ready',
+          clients: clients.length.toString(),
+        });
+      } catch {
+        setStats(prev => ({ ...prev, health: 'error', readiness: 'error' }));
+      }
+    };
+
+    void fetchStatus();
+  }, []);
 
   return (
     <div className="admin-overview">

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import { ShieldCheck, RefreshCw, CheckCircle2 } from 'lucide-react';
+import type { JwksResponse } from '../../features/admin/admin.types';
 
 const AdminKeysPage: React.FC = () => {
-  const [jwks, setJwks] = useState<any>(null);
+  const [jwks, setJwks] = useState<JwksResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,7 +12,7 @@ const AdminKeysPage: React.FC = () => {
       try {
         const data = await adminApi.getJwks();
         setJwks(data);
-      } catch (error) {
+      } catch {
         console.error('Failed to fetch JWKS');
       } finally {
         setLoading(false);

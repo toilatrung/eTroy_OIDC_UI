@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
 import Button from '../../shared/components/Button';
@@ -8,7 +9,7 @@ import LoadingState from '../../shared/components/LoadingState';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import ChangePasswordModal from '../../shared/components/ChangePasswordModal';
 import { userApi } from '../../features/user/user.api';
-import type { UserProfile } from '../../features/user/user.types';
+import type { ConnectedApplication, UserProfile } from '../../features/user/user.types';
 import { authApi } from '../../features/auth/auth.api';
 
 const ProfilePage: React.FC = () => {
@@ -18,6 +19,9 @@ const ProfilePage: React.FC = () => {
   const [isSaving, setIsSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
+  const [connectedApplications, setConnectedApplications] = React.useState<ConnectedApplication[]>([]);
+  const [isLoadingConnectedApplications, setIsLoadingConnectedApplications] = React.useState(true);
+  const [revokingClientId, setRevokingClientId] = React.useState<string | null>(null);
 
   // Form state
   const [displayName, setDisplayName] = React.useState('');
@@ -27,11 +31,10 @@ const ProfilePage: React.FC = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = React.useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    fetchProfile();
-  }, []);
+  const isUnauthorizedError = (err: unknown) =>
+    axios.isAxiosError(err) && err.response?.status === 401;
 
-  const fetchProfile = async () => {
+  async function fetchProfile() {
     setIsLoading(true);
     setError(null);
     try {
@@ -39,23 +42,23 @@ const ProfilePage: React.FC = () => {
       setProfile(data);
       setDisplayName(data.name || '');
       setAvatarUrl(data.avatar_url || '');
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        window.location.href = '/login';
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        navigate('/login');
         return;
       }
       setError('We could not load your profile right now. Please try again later.');
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   const handleSaveProfile = async () => {
     setIsSaving(true);
     setError(null);
     setSuccessMessage(null);
     try {
-      const payload: any = {};
+      const payload: Partial<Pick<UserProfile, 'name' | 'avatar_url'>> = {};
       if (displayName !== profile?.name) payload.name = displayName;
       if (avatarUrl !== profile?.avatar_url) payload.avatar_url = avatarUrl;
 
@@ -71,7 +74,7 @@ const ProfilePage: React.FC = () => {
       if (profile) {
         setProfile({ ...profile, ...payload });
       }
-    } catch (err: any) {
+    } catch {
       setError('We could not update your profile right now. Please try again.');
     } finally {
       setIsSaving(false);
@@ -82,10 +85,75 @@ const ProfilePage: React.FC = () => {
     try {
       await userApi.signOutFromAllSessions();
       await authApi.logout();
-      window.location.href = '/login';
-    } catch (err) {
+      navigate('/login');
+    } catch {
       setError('Logout failed. Please try again.');
     }
+  };
+
+  async function fetchConnectedApplications() {
+    setIsLoadingConnectedApplications(true);
+
+    try {
+      const apps = await userApi.getConnectedApplications();
+      setConnectedApplications(apps);
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        navigate('/login');
+        return;
+      }
+
+      setError('We could not load connected applications right now.');
+    } finally {
+      setIsLoadingConnectedApplications(false);
+    }
+  }
+
+  const handleRevokeApplication = async (clientId: string) => {
+    setRevokingClientId(clientId);
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      await userApi.revokeConnectedApplication(clientId);
+      setConnectedApplications((apps) => apps.filter((app) => app.clientId !== clientId));
+      setSuccessMessage('Application access revoked.');
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        navigate('/login');
+        return;
+      }
+
+      setError('We could not revoke this application. Please try again.');
+    } finally {
+      setRevokingClientId(null);
+    }
+  };
+
+  React.useEffect(() => {
+    const loadInitialData = async () => {
+      await Promise.resolve();
+      await Promise.all([fetchProfile(), fetchConnectedApplications()]);
+    };
+
+    void loadInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const formatDate = (value?: string) => {
+    if (!value) return 'Not available';
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return 'Not available';
+    }
+
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
   };
 
   if (isLoading) {
@@ -268,17 +336,101 @@ const ProfilePage: React.FC = () => {
         <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#000000', marginBottom: '1rem' }}>
           Connected Applications
         </h3>
-        <div style={{
-          padding: '2rem',
-          backgroundColor: '#f9fafb',
-          borderRadius: 'var(--radius-md)',
-          textAlign: 'center',
-          border: '1px dashed var(--color-border)'
-        }}>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', margin: 0 }}>
-            No connected applications yet.
-          </p>
-        </div>
+        {isLoadingConnectedApplications ? (
+          <LoadingState />
+        ) : connectedApplications.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {connectedApplications.map((app) => (
+              <article
+                key={app.clientId}
+                style={{
+                  padding: '1.25rem',
+                  backgroundColor: '#ffffff',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  gap: '1rem',
+                  marginBottom: '1rem'
+                }}>
+                  <div>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#000000', marginBottom: '0.25rem' }}>
+                      {app.clientName || app.clientId}
+                    </h4>
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem', margin: 0 }}>
+                      Client ID: {app.clientId}
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => void handleRevokeApplication(app.clientId)}
+                    isLoading={revokingClientId === app.clientId}
+                    disabled={revokingClientId !== null}
+                    style={{
+                      width: 'auto',
+                      padding: '0.625rem 0.875rem',
+                      color: '#dc2626',
+                      borderColor: '#fecaca',
+                      flexShrink: 0
+                    }}
+                  >
+                    Disconnect
+                  </Button>
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-muted)' }}>
+                    Granted scopes
+                  </span>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {app.scopes.length > 0 ? app.scopes.map((scope) => (
+                      <span
+                        key={scope}
+                        style={{
+                          backgroundColor: '#f3f4f6',
+                          border: '1px solid var(--color-border)',
+                          borderRadius: '9999px',
+                          color: '#111827',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          padding: '0.25rem 0.625rem'
+                        }}
+                      >
+                        {scope}
+                      </span>
+                    )) : (
+                      <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
+                        No scopes reported.
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
+                  Granted: {formatDate(app.grantedAt)}
+                  {app.lastUsedAt && <> - Last used: {formatDate(app.lastUsedAt)}</>}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div style={{
+            padding: '2rem',
+            backgroundColor: '#f9fafb',
+            borderRadius: 'var(--radius-md)',
+            textAlign: 'center',
+            border: '1px dashed var(--color-border)'
+          }}>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', margin: 0 }}>
+              No connected applications yet.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Modals */}

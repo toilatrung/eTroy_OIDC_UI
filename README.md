@@ -19,6 +19,8 @@ This project provides the user-facing and admin-facing interfaces for authentica
 
 - Authentication flows:
   - Login
+  - OIDC browser interaction resume
+  - Consent approval/denial
   - Registration
   - Email verification result
   - Resend verification
@@ -28,6 +30,7 @@ This project provides the user-facing and admin-facing interfaces for authentica
   - `/support` (eTroy Platform Support)
 - User area:
   - Profile page (`/`)
+  - Connected Applications backed by consent persistence API
 - Admin area (guarded routes):
   - Overview
   - Users
@@ -57,13 +60,21 @@ public/                # Static assets
 
 ## Environment Variables
 
-Create a `.env` file in the project root (optional if using defaults):
+Copy `.env.example` to `.env.local` for local development:
 
 ```env
 VITE_API_BASE_URL=http://localhost:3000
+VITE_APP_BASE_URL=http://localhost:5173
+VITE_OIDC_AUTHORIZE_URL=http://localhost:3000/authorize
 ```
 
-If not provided, the app defaults to `http://localhost:3000`.
+Variables:
+
+- `VITE_API_BASE_URL`: Backend/API base URL used by the Axios client.
+- `VITE_APP_BASE_URL`: Frontend base URL, useful when a flow needs to build internal redirects.
+- `VITE_OIDC_AUTHORIZE_URL`: Backend authorize URL for client-initiated OIDC browser flows when needed.
+
+Do not commit `.env` or `.env.local`. No client secret belongs in frontend environment files.
 
 ## Installation
 
@@ -98,6 +109,7 @@ npm run lint
 Main routes configured in `src/app/router.tsx`:
 
 - `/login`
+- `/consent`
 - `/register`
 - `/register/success`
 - `/resend-verification`
@@ -121,4 +133,3 @@ HTTP client is configured in `src/shared/api/apiClient.ts` with:
 
 - This repository is focused on the UI layer for eTroy OIDC.
 - Admin access behavior is currently controlled by `src/config/admin.ts` and should be replaced by proper role claims/scopes in production.
-

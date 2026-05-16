@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../../features/admin/admin.api';
 import type { AdminUserView } from '../../features/admin/admin.types';
 import { Users, Plus, AlertCircle, ShieldCheck, Mail, ShieldAlert } from 'lucide-react';
@@ -12,22 +12,22 @@ const AdminUsersPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newUserData, setNewUserData] = useState({ email: '', name: '', password: 'Password123!!!', emailVerified: true });
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const data = await adminApi.listUsers();
       setUsers(data);
-    } catch (err) {
+    } catch {
       setError('Could not retrieve user directory. Please ensure the administrative API is accessible.');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void Promise.resolve().then(fetchUsers);
+  }, [fetchUsers]);
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +39,8 @@ const AdminUsersPage: React.FC = () => {
         email_verified: newUserData.emailVerified
       });
       setShowCreateModal(false);
-      fetchUsers();
-    } catch (err) {
+      void fetchUsers();
+    } catch {
       alert('Failed to provision user. Ensure email is unique.');
     }
   };
@@ -55,8 +55,8 @@ const AdminUsersPage: React.FC = () => {
       } else {
         await adminApi.enableUser(sub);
       }
-      fetchUsers();
-    } catch (err) {
+      void fetchUsers();
+    } catch {
       alert('Failed to update user status.');
     }
   };
@@ -66,8 +66,8 @@ const AdminUsersPage: React.FC = () => {
     try {
       const result = await adminApi.purgeUnverifiedUsers();
       alert(`Success: ${result.deletedCount} unverified users have been purged from the platform directory.`);
-      fetchUsers();
-    } catch (err) {
+      void fetchUsers();
+    } catch {
       alert('Failed to execute purge operation.');
     }
   };
