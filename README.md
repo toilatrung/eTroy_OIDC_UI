@@ -1,4 +1,4 @@
-
+<img width="1121" height="713" alt="Screenshot 2026-05-17 011429" src="https://github.com/user-attachments/assets/5f5367cd-56f6-4431-a66c-3da4490c8198" />
 
 # eTroy OIDC UI
 
