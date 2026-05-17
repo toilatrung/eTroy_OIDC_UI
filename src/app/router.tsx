@@ -7,6 +7,8 @@ import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import AccountErrorPage from '../pages/auth/AccountErrorPage';
 import PlatformSupportPage from '../pages/auth/PlatformSupportPage';
 import ConsentPage from '../pages/auth/ConsentPage';
+import PlatformUserAgreementPage from '../pages/legal/PlatformUserAgreementPage';
+import DataPrivacyPolicyPage from '../pages/legal/DataPrivacyPolicyPage';
 
 import RegistrationSuccessPage from '../pages/auth/RegistrationSuccessPage';
 import ResendVerificationPage from '../pages/auth/ResendVerificationPage';
@@ -41,6 +43,14 @@ export const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />,
+  },
+  {
+    path: '/platform-user-agreement',
+    element: <PlatformUserAgreementPage />,
+  },
+  {
+    path: '/data-privacy-policy',
+    element: <DataPrivacyPolicyPage />,
   },
   {
     path: '/register/success',

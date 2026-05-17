@@ -91,6 +91,13 @@ npm run dev
 Default Vite dev server:
 - `http://localhost:5173`
 
+Local OIDC integration ports:
+
+- OIDC Backend: `http://localhost:3000`
+- OIDC UI: `http://localhost:5173`
+- ClientTesting: `http://localhost:5174`
+- ClientTesting callback: `http://localhost:5174/callback`
+
 ## Build and Preview
 
 ```bash
@@ -109,8 +116,12 @@ npm run lint
 Main routes configured in `src/app/router.tsx`:
 
 - `/login`
+- `/oidc/login`
 - `/consent`
+- `/oidc/consent`
 - `/register`
+- `/platform-user-agreement`
+- `/data-privacy-policy`
 - `/register/success`
 - `/resend-verification`
 - `/verify-email/result`
