@@ -47,6 +47,12 @@ const normalizeScopes = (value: unknown): string[] => {
   return [];
 };
 
+const isConsentRequiredStatus = (value: string | undefined): boolean => {
+  const normalized = value?.toLowerCase();
+
+  return normalized === 'consent_required' || normalized === 'consent';
+};
+
 const getRedirectUrl = (value: unknown): string | undefined => {
   if (!isRecord(value)) return undefined;
 
@@ -65,24 +71,28 @@ const normalizeInteraction = (raw: unknown, fallbackInteractionId: string): Oidc
   const source = isRecord(payload) ? payload : {};
   const client = getNestedRecord(source, 'client');
   const status = firstString(source.status, source.state, source.prompt);
+  const redirectUrl = getRedirectUrl(source);
   const scopes = normalizeScopes(
-    source.scopes ?? source.requestedScopes ?? source.scope ?? source.requested_scope,
+    source.scopes ??
+      source.requestedScopes ??
+      source.requested_scopes ??
+      source.scope ??
+      source.requested_scope,
   );
 
   const requiresConsent =
     source.requiresConsent === true ||
     source.consentRequired === true ||
-    status === 'consent_required' ||
-    status === 'consent' ||
-    source.prompt === 'consent';
+    source.consent_required === true ||
+    isConsentRequiredStatus(status);
 
   return {
     interactionId: firstString(source.interactionId, source.interaction_id) ?? fallbackInteractionId,
     clientId: firstString(source.clientId, source.client_id, client?.clientId, client?.client_id, client?.id),
     clientName: firstString(source.clientName, source.client_name, client?.clientName, client?.client_name, client?.name),
     scopes,
-    redirectUrl: getRedirectUrl(source),
-    requiresConsent: requiresConsent || !getRedirectUrl(source),
+    redirectUrl,
+    requiresConsent,
     status,
   };
 };

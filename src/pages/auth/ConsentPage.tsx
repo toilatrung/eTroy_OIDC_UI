@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import Alert from '../../shared/components/Alert';
 import Button from '../../shared/components/Button';
 import LoadingState from '../../shared/components/LoadingState';
+import OidcPopupLayoutStyles from '../../features/oidc/OidcPopupLayoutStyles';
 import { mapOidcError, oidcApi } from '../../features/oidc/oidc.api';
 import type { OidcInteractionContext } from '../../features/oidc/oidc.types';
 
@@ -37,6 +38,12 @@ const ConsentPage: React.FC = () => {
 
         if (context.redirectUrl) {
           window.location.assign(context.redirectUrl);
+          return;
+        }
+
+        if (!context.requiresConsent) {
+          setInteraction(null);
+          setError('This authorization request is not waiting for consent. Please restart sign-in from the client application.');
           return;
         }
 
@@ -85,7 +92,8 @@ const ConsentPage: React.FC = () => {
   }
 
   return (
-    <div style={{ width: '100%', maxWidth: '520px' }}>
+    <div className="oidc-popup-flow" style={{ width: '100%', maxWidth: '520px' }}>
+      <OidcPopupLayoutStyles />
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#000000', marginBottom: '0.5rem' }}>
         Authorize application
       </h1>
@@ -158,7 +166,7 @@ const ConsentPage: React.FC = () => {
             )}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <div className="oidc-consent-actions" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
             <Button
               type="button"
               variant="outline"

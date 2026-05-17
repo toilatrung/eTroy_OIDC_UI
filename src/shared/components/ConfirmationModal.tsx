@@ -27,42 +27,43 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000,
-      padding: '1rem'
-    }}>
-      <div style={{
-        backgroundColor: '#ffffff',
-        borderRadius: 'var(--radius-md)',
-        width: '100%',
-        maxWidth: '400px',
-        padding: '2rem',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-      }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#000000', marginBottom: '1rem' }}>
-          {title}
-        </h2>
-        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem', lineHeight: 1.5 }}>
-          {body}
-        </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-          <Button variant="outline" onClick={onClose} disabled={isLoading}>
+    <div className="modal-overlay" role="presentation">
+      <div
+        className="confirmation-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirmation-modal-title"
+      >
+        <div className="confirmation-modal__body">
+          <h2 id="confirmation-modal-title" className="confirmation-modal__title">
+            {title}
+          </h2>
+          <p className="confirmation-modal__message">
+            {body}
+          </p>
+        </div>
+        <div className="confirmation-modal__actions">
+          <Button
+            className="confirmation-modal__button"
+            variant="outline"
+            onClick={onClose}
+            disabled={isLoading}
+            style={{ width: 'auto', minWidth: '8.75rem' }}
+          >
             {cancelLabel}
           </Button>
           <Button 
-            variant={variant === 'danger' ? 'primary' : variant} 
+            className="confirmation-modal__button"
+            variant="primary"
             onClick={onConfirm} 
             isLoading={isLoading}
-            style={variant === 'danger' ? { backgroundColor: '#dc2626', color: '#ffffff' } : { backgroundColor: '#000000' }}
+            style={{
+              width: 'auto',
+              minWidth: '11rem',
+              backgroundColor: variant === 'danger' ? 'var(--color-primary)' : 'var(--color-secondary)',
+              borderColor: variant === 'danger' ? 'var(--color-primary)' : 'var(--color-secondary)',
+              color: '#ffffff'
+            }}
           >
             {confirmLabel}
           </Button>
