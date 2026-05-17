@@ -150,10 +150,26 @@ const RegisterPage: React.FC = () => {
         />
 
         <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', marginTop: '1.5rem' }}>
-          <input type="checkbox" id="agree" style={{ width: '16px', height: '16px', marginTop: '0.25rem', cursor: 'pointer' }} required />
-          <label htmlFor="agree" style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', fontWeight: 500, margin: 0, cursor: 'pointer', lineHeight: 1.4 }}>
-            I agree to the <Link to="/terms" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Platform User Agreement</Link> and <Link to="/privacy" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Data Privacy Policy</Link>.
-          </label>
+          <input
+            type="checkbox"
+            id="agree"
+            aria-label="I agree to the Platform User Agreement and Data Privacy Policy."
+            style={{ width: '16px', height: '16px', marginTop: '0.25rem', cursor: 'pointer' }}
+            required
+          />
+          <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', fontWeight: 500, margin: 0, lineHeight: 1.4 }}>
+            <label htmlFor="agree" style={{ cursor: 'pointer' }}>
+              I agree to the
+            </label>{' '}
+            <Link to="/platform-user-agreement" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+              Platform User Agreement
+            </Link>{' '}
+            and{' '}
+            <Link to="/data-privacy-policy" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+              Data Privacy Policy
+            </Link>
+            .
+          </div>
         </div>
         
         <Button type="submit" isLoading={isLoading} disabled={isLoading}>
