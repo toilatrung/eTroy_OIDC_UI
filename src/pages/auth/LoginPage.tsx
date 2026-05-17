@@ -6,6 +6,7 @@ import Alert from '../../shared/components/Alert';
 import { authApi } from '../../features/auth/auth.api';
 import { mapError, getSafeMessage } from '../../shared/api/apiError';
 import { mapOidcError, oidcApi } from '../../features/oidc/oidc.api';
+import OidcPopupLayoutStyles from '../../features/oidc/OidcPopupLayoutStyles';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -43,6 +44,9 @@ const LoginPage: React.FC = () => {
           navigate(`/oidc/consent?interaction_id=${encodeURIComponent(interaction.interactionId)}`);
           return;
         }
+
+        setError('Authorization could not continue because the server did not return a redirect or consent step.');
+        return;
       }
 
       navigate('/');
@@ -61,7 +65,8 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '420px' }}>
+    <div className="oidc-popup-flow" style={{ width: '100%', maxWidth: '420px' }}>
+      <OidcPopupLayoutStyles />
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#000000', marginBottom: '0.5rem' }}>
         Sign in to Your Account
       </h1>

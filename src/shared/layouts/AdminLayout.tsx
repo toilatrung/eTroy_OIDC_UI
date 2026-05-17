@@ -126,7 +126,7 @@ const AdminLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="admin-main" style={{ flex: 1, padding: '2.5rem', overflowY: 'auto' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="admin-main-inner" style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Outlet />
         </div>
       </main>

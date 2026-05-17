@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
       <div className="auth-side-content">
         {!isAdmin && (
-          <header style={{ 
+          <header className="app-topbar" style={{ 
             display: 'flex', 
             justifyContent: 'flex-end', 
             padding: '1.5rem',
@@ -122,7 +122,7 @@ const App: React.FC = () => {
         </main>
 
         {!isAdmin && (
-          <footer style={{ 
+          <footer className="app-footer" style={{ 
             marginTop: 'auto',
             padding: '2rem', 
             textAlign: 'center', 

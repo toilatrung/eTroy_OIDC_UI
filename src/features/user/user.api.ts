@@ -70,12 +70,13 @@ const normalizeConnectedApplication = (value: unknown): ConnectedApplication | n
 
 const normalizeConnectedApplications = (value: unknown): ConnectedApplication[] => {
   const payload = unwrapData(value);
+  const applications = isRecord(payload) ? payload.applications : payload;
 
-  if (!Array.isArray(payload)) {
+  if (!Array.isArray(applications)) {
     return [];
   }
 
-  return payload
+  return applications
     .map(normalizeConnectedApplication)
     .filter((app): app is ConnectedApplication => app !== null);
 };
