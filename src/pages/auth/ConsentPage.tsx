@@ -8,10 +8,10 @@ import { mapOidcError, oidcApi } from '../../features/oidc/oidc.api';
 import type { OidcInteractionContext } from '../../features/oidc/oidc.types';
 
 const SCOPE_DESCRIPTIONS: Record<string, string> = {
-  openid: 'Confirm your eTroy identity for this sign-in.',
-  profile: 'Read your basic profile information.',
-  email: 'Read your email address and verification status.',
-  offline_access: 'Maintain access when you are not actively using the application.',
+  openid: 'Allows the application to verify your identity through eTroy OIDC.',
+  profile: 'Allows the application to access your basic profile information.',
+  email: 'Allows the application to access your email address and email verification status.',
+  offline_access: 'Allows the application to maintain access according to approved session and consent rules.',
 };
 
 const ConsentPage: React.FC = () => {
@@ -95,10 +95,10 @@ const ConsentPage: React.FC = () => {
     <div className="oidc-popup-flow" style={{ width: '100%', maxWidth: '520px' }}>
       <OidcPopupLayoutStyles />
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#000000', marginBottom: '0.5rem' }}>
-        Authorize application
+        Authorize this application
       </h1>
       <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem' }}>
-        Review the access requested before continuing.
+        Review the access this application is requesting through eTroy OIDC before continuing.
       </p>
 
       {error && <Alert type="error" title="Authorization request failed" message={error} />}
@@ -124,7 +124,7 @@ const ConsentPage: React.FC = () => {
               Client application
             </span>
             <h2 style={{ fontSize: '1.25rem', color: '#000000', margin: 0 }}>
-              {interaction.clientName || interaction.clientId || 'Unknown application'}
+              {interaction.clientName || interaction.clientId || 'Unknown client application'}
             </h2>
             {interaction.clientId && (
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem', marginTop: '0.25rem' }}>
@@ -154,14 +154,14 @@ const ConsentPage: React.FC = () => {
                       {scope}
                     </div>
                     <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
-                      {SCOPE_DESCRIPTIONS[scope] || 'Allow this application to use this requested permission.'}
+                      {SCOPE_DESCRIPTIONS[scope] || 'Allows the application to request this approved permission through eTroy OIDC.'}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', margin: 0 }}>
-                This application did not request additional profile permissions.
+                This application is not requesting any additional permissions.
               </p>
             )}
           </div>

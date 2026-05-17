@@ -68,7 +68,7 @@ const ResendVerificationPage: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="user@etroy.platform"
+            placeholder="name@example.com"
             disabled={isLoading}
           />
           

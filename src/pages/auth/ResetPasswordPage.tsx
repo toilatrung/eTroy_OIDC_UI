@@ -56,7 +56,7 @@ const ResetPasswordPage: React.FC = () => {
   }
 
   return (
-    <Card title="Reset Password" subtitle="Enter your new password below">
+    <Card title="Reset password" subtitle="Enter your new password below">
       {success ? (
         <Alert type="success" message="Password successfully reset. Redirecting to login..." />
       ) : (
@@ -70,7 +70,7 @@ const ResetPasswordPage: React.FC = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             required
             autoComplete="new-password"
-            placeholder="••••••••"
+            placeholder="Enter a strong password"
           />
 
           <Input
@@ -80,11 +80,11 @@ const ResetPasswordPage: React.FC = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             autoComplete="new-password"
-            placeholder="••••••••"
+            placeholder="Re-enter your password"
           />
           
           <Button type="submit" isLoading={isLoading}>
-            Reset Password
+            Reset password
           </Button>
         </form>
       )}

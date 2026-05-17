@@ -33,19 +33,19 @@ const App: React.FC = () => {
           <div className="auth-side-brand-inner">
             <div className="auth-side-brand-copy">
               <h1 className="auth-side-brand-title" style={{ fontWeight: 800, color: '#ffffff' }}>
-                {isProfile ? 'Identity Management. Platform Access.' : 'Secure Platform Identity.'}
+                {isProfile ? 'eTroy OIDC Identity. eTroy One Access.' : 'Secure eTroy OIDC Identity.'}
               </h1>
               <p className="auth-side-brand-description" style={{ opacity: 0.9, fontWeight: 500, color: '#ffffff' }}>
                 {isProfile 
-                  ? 'Access eTroy Platform services with centralized identity and secure sign-in.' 
-                  : 'Use one identity across eTroy ecosystem clients through the eTroy OIDC provider.'}
+                  ? 'Access eTroy One services with a centralized eTroy OIDC identity, designed to keep sign-in simple, secure, and consistent across connected applications.'
+                  : 'Use one trusted identity across eTroy One applications, powered by eTroy OIDC for secure authentication, seamless access, and consistent account protection.'}
               </p>
             </div>
             
             <div className="auth-side-brand-logo">
               <img 
                 src="/etroy-collaboration-troy-logo.svg" 
-                alt="eTroy Platform" 
+                alt="eTroy One"
                 className="auth-side-brand-logo-image"
               />
             </div>
@@ -109,7 +109,7 @@ const App: React.FC = () => {
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    eTroy Platform Support
+                    eTroy Collaboration Support
                   </div>
                 </div>
               )}
@@ -130,8 +130,8 @@ const App: React.FC = () => {
             color: 'var(--color-text-muted)',
             lineHeight: 1.5
           }}>
-            &copy; eTroy OIDC &middot; Identity services for eTroy Platform <br />
-            Collaboration. All rights reserved.
+            &copy; eTroy OIDC &middot; Identity services for eTroy One. <br />
+            eTroy Collaboration. All rights reserved.
           </footer>
         )}
       </div>

@@ -56,7 +56,7 @@ const VerifyEmailResultPage: React.FC = () => {
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            <span style={{ color: '#16a34a', fontWeight: 600, fontSize: '0.9375rem' }}>Email verified successfully!</span>
+            <span style={{ color: '#16a34a', fontWeight: 600, fontSize: '0.9375rem' }}>Email verified successfully.</span>
           </div>
 
           <div style={{ padding: 'var(--spacing-lg)' }}>
@@ -100,7 +100,7 @@ const VerifyEmailResultPage: React.FC = () => {
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            <span style={{ color: '#dc2626', fontWeight: 600, fontSize: '0.9375rem' }}>Invalid or expired token</span>
+            <span style={{ color: '#dc2626', fontWeight: 600, fontSize: '0.9375rem' }}>Invalid or expired token.</span>
           </div>
 
           <div style={{ padding: 'var(--spacing-lg)' }}>

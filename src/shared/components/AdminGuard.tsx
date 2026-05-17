@@ -72,7 +72,7 @@ const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
         </div>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-text-main)', margin: '0 0 0.5rem 0' }}>Access Denied</h2>
         <p style={{ color: 'var(--color-text-subtle)', marginBottom: '2rem', maxWidth: '400px' }}>
-          You do not have the required administrative privileges to access the Management Platform.
+          You do not have the required administrative privileges to access eTroy OIDC Management.
         </p>
         <button 
           onClick={() => navigate('/')}

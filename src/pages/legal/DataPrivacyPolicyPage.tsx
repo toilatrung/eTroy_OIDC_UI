@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const policyItems = [
-  'The platform collects account information such as name, email, login/session metadata, and connected application consent records.',
-  'Data is used for authentication, authorization, account security, and connected application access.',
-  'The platform does not expose passwords, secrets, tokens, or internal session data to connected applications.',
-  'Connected applications receive only approved OIDC claims/scopes after user consent.',
+  'eTroy OIDC may process account information such as name, email address, email verification status, login/session metadata, and connected application consent records.',
+  'Data is used for authentication, authorization, account protection, connected application access, audit, and abuse prevention.',
+  'Connected applications receive only the approved OIDC claims/scopes after user consent.',
+  'eTroy OIDC does not share passwords, session cookies, client secrets, or internal security tokens with connected applications.',
   'Users may revoke connected application access where supported.',
-  'Security logs may be retained for audit and abuse prevention.',
-  'Continued use means acceptance of the policy.',
+  'Security and audit logs may be retained to protect accounts and platform integrity.',
+  'Continued use of eTroy One services through eTroy OIDC means acceptance of this policy.',
 ];
 
 const DataPrivacyPolicyPage: React.FC = () => {
@@ -30,7 +30,7 @@ const DataPrivacyPolicyPage: React.FC = () => {
           Data Privacy Policy
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-          This static policy explains the minimum data handling expectations for eTroy Platform identity flows.
+          This Data Privacy Policy explains how eTroy OIDC handles identity, authentication, authorization, connected application consent, and account security data for eTroy One.
         </p>
 
         <ul style={{ display: 'grid', gap: '0.875rem', margin: '0 0 1.75rem', paddingLeft: '1.25rem' }}>
@@ -51,7 +51,7 @@ const DataPrivacyPolicyPage: React.FC = () => {
             textDecoration: 'none',
           }}
         >
-          Back to Register
+          Back to register
         </Link>
       </section>
     </div>

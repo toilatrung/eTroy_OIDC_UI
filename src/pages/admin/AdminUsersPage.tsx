@@ -65,7 +65,7 @@ const AdminUsersPage: React.FC = () => {
     if (!window.confirm('CRITICAL ACTION: This will permanently delete ALL users who have not verified their email. Are you sure?')) return;
     try {
       const result = await adminApi.purgeUnverifiedUsers();
-      alert(`Success: ${result.deletedCount} unverified users have been purged from the platform directory.`);
+      alert(`Success: ${result.deletedCount} unverified users have been purged from the eTroy OIDC user directory.`);
       void fetchUsers();
     } catch {
       alert('Failed to execute purge operation.');
@@ -77,7 +77,7 @@ const AdminUsersPage: React.FC = () => {
       <header style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <div>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--color-text-main)', margin: '0 0 0.5rem 0' }}>User Management</h1>
-          <p style={{ color: 'var(--color-text-subtle)', margin: 0 }}>Review and manage eTroy Platform user accounts.</p>
+          <p style={{ color: 'var(--color-text-subtle)', margin: 0 }}>Review and manage eTroy OIDC user accounts.</p>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <button 
@@ -203,7 +203,7 @@ const AdminUsersPage: React.FC = () => {
               {users.length === 0 && (
                 <tr>
                   <td colSpan={3} style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-subtle)' }}>
-                    No platform users found in the identity directory.
+                    No eTroy OIDC users found in the identity directory.
                   </td>
                 </tr>
               )}
@@ -217,7 +217,7 @@ const AdminUsersPage: React.FC = () => {
         <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
           <div style={{ backgroundColor: 'var(--color-surface)', width: '100%', maxWidth: '500px', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
             <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Provision Platform User</h2>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Provision eTroy OIDC User</h2>
               <button onClick={() => setShowCreateModal(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>&times;</button>
             </div>
             
@@ -239,7 +239,7 @@ const AdminUsersPage: React.FC = () => {
                   type="email"
                   value={newUserData.email} 
                   onChange={e => setNewUserData({...newUserData, email: e.target.value})}
-                  placeholder="user@etroy.platform" 
+                  placeholder="name@example.com"
                   style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }} 
                 />
               </div>

@@ -68,10 +68,10 @@ const LoginPage: React.FC = () => {
     <div className="oidc-popup-flow" style={{ width: '100%', maxWidth: '420px' }}>
       <OidcPopupLayoutStyles />
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#000000', marginBottom: '0.5rem' }}>
-        Sign in to Your Account
+        Sign in to eTroy OIDC
       </h1>
       <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem' }}>
-        Please enter your eTroy Platform credentials below
+        Use your eTroy OIDC account to access eTroy One services and connected applications securely.
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
@@ -84,7 +84,7 @@ const LoginPage: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           autoComplete="email"
-          placeholder="user@etroy.platform"
+          placeholder="name@example.com"
           disabled={isLoading}
         />
         
@@ -95,7 +95,7 @@ const LoginPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="current-password"
-          placeholder="••••••••••••"
+          placeholder="Enter your password"
           disabled={isLoading}
         />
         
@@ -111,7 +111,7 @@ const LoginPage: React.FC = () => {
             <span className="slider"></span>
           </label>
           <label htmlFor="remember" style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', fontWeight: 500, margin: 0, cursor: 'pointer' }}>
-            Remember session
+            Remember this session
           </label>
         </div>
         
@@ -121,7 +121,7 @@ const LoginPage: React.FC = () => {
       </form>
       
       <div style={{ marginTop: '2.5rem', textAlign: 'center', fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-        New to eTroy Platform? <Link to="/register" style={{ color: 'var(--color-primary)', fontWeight: 700, marginLeft: '4px' }}>Create account</Link>
+        New to eTroy OIDC? <Link to="/register" style={{ color: 'var(--color-primary)', fontWeight: 700, marginLeft: '4px' }}>Create account</Link>
       </div>
     </div>
   );

@@ -95,10 +95,10 @@ const RegisterPage: React.FC = () => {
   return (
     <div style={{ width: '100%', maxWidth: '420px' }}>
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#000000', marginBottom: '0.5rem' }}>
-        Create Your Account
+        Create your eTroy OIDC account
       </h1>
       <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem' }}>
-        Join the eTroy Platform ecosystem
+        Create one secure identity for eTroy One services and trusted connected applications.
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
@@ -109,7 +109,7 @@ const RegisterPage: React.FC = () => {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Eva and Alice"
+          placeholder="Jane Doe"
           disabled={isLoading}
         />
 
@@ -120,7 +120,7 @@ const RegisterPage: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           autoComplete="email"
-          placeholder="user@etroy.platform"
+          placeholder="name@example.com"
           error={fieldErrors.email}
           disabled={isLoading}
         />
@@ -132,7 +132,7 @@ const RegisterPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="new-password"
-          placeholder="abcd@1234"
+          placeholder="Enter a strong password"
           error={fieldErrors.password}
           disabled={isLoading}
         />
@@ -144,7 +144,7 @@ const RegisterPage: React.FC = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
           autoComplete="new-password"
-          placeholder="Re-type password"
+          placeholder="Re-enter your password"
           error={fieldErrors.confirmPassword}
           disabled={isLoading}
         />
@@ -179,7 +179,7 @@ const RegisterPage: React.FC = () => {
       
       <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
         <Link to="/login" style={{ fontSize: '0.875rem', color: 'var(--color-primary)', fontWeight: 700 }}>
-          Back to Login
+          Back to sign in
         </Link>
       </div>
     </div>
