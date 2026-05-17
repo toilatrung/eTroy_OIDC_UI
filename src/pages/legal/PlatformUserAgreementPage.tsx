@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const agreementItems = [
-  'User agrees to provide accurate account information.',
-  'User is responsible for protecting account credentials.',
-  'User must not misuse the platform, attempt unauthorized access, or interfere with services.',
-  'eTroy OIDC provides identity services for the eTroy Platform ecosystem.',
-  'Access may be restricted or revoked if misuse is detected.',
-  'Continued use means acceptance of the agreement.',
+  'Users must provide accurate account information.',
+  'Users are responsible for keeping account credentials secure.',
+  'Users must not misuse eTroy One services, attempt unauthorized access, or interfere with platform operations.',
+  'eTroy OIDC provides identity, authentication, authorization, and connected application consent for eTroy One.',
+  'Access may be restricted or revoked if misuse, abuse, or unauthorized activity is detected.',
+  'Continued use of eTroy One services through eTroy OIDC means acceptance of this agreement.',
 ];
 
 const PlatformUserAgreementPage: React.FC = () => {
@@ -29,7 +29,7 @@ const PlatformUserAgreementPage: React.FC = () => {
           Platform User Agreement
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-          This static agreement supports local testing for eTroy Platform account registration and identity access.
+          This Platform User Agreement explains the basic terms for using eTroy One services with an eTroy OIDC account.
         </p>
 
         <ul style={{ display: 'grid', gap: '0.875rem', margin: '0 0 1.75rem', paddingLeft: '1.25rem' }}>
@@ -50,7 +50,7 @@ const PlatformUserAgreementPage: React.FC = () => {
             textDecoration: 'none',
           }}
         >
-          Back to Register
+          Back to register
         </Link>
       </section>
     </div>

@@ -71,7 +71,7 @@ const AdminOverviewPage: React.FC = () => {
     <div className="admin-overview">
       <header style={{ marginBottom: '2.5rem' }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--color-text-main)', margin: '0 0 0.5rem 0' }}>Dashboard Overview</h1>
-        <p style={{ color: 'var(--color-text-subtle)', margin: 0 }}>Operational status of the eTroy Identity Layer.</p>
+        <p style={{ color: 'var(--color-text-subtle)', margin: 0 }}>Operational status of the eTroy OIDC identity layer.</p>
       </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>

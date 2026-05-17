@@ -17,9 +17,9 @@ const supportGroups = [
       'Support for password reset requests, missing reset emails, and expired or invalid password reset tokens.',
   },
   {
-    title: 'Platform Access Issues',
+    title: 'eTroy One Access Issues',
     description:
-      'Support for application access errors across the eTroy ecosystem after authentication through eTroy OIDC.',
+      'Support for application access errors across eTroy One after authentication through eTroy OIDC.',
   },
 ];
 
@@ -36,11 +36,11 @@ const PlatformSupportPage: React.FC = () => {
         }}
       >
         <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#800000', marginBottom: '0.75rem' }}>
-          eTroy Platform Support
+          eTroy Collaboration Support
         </h1>
         <p style={{ color: 'var(--color-text-main)', fontSize: '1rem', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-          Need help with your eTroy account or platform access? Our development team is available to support account
-          verification, password reset, login issues, and platform access problems across the eTroy ecosystem.
+          Need help with your eTroy OIDC account or access to eTroy One services? Contact eTroy Collaboration for
+          support with account verification, password reset, sign-in issues, and connected application access.
         </p>
         <a
           href="mailto:troycourselab.hust@gmail.com"
@@ -93,7 +93,7 @@ const PlatformSupportPage: React.FC = () => {
       >
         <h2 style={{ fontSize: '1.1rem', color: '#800000', fontWeight: 700, marginBottom: '0.5rem' }}>Developer Contact</h2>
         <p style={{ color: 'var(--color-text-subtle)', marginBottom: '0.75rem' }}>
-          Official support contact for eTroy Platform account and access assistance:
+          Official support contact for eTroy OIDC account and eTroy One access assistance:
         </p>
         <a
           href="mailto:troycourselab.hust@gmail.com"
@@ -107,4 +107,3 @@ const PlatformSupportPage: React.FC = () => {
 };
 
 export default PlatformSupportPage;
-

@@ -222,7 +222,7 @@ const ProfilePage: React.FC = () => {
               {profile.name || 'Anonymous User'}
             </h2>
             <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>
-              {profile.status === 'active' ? 'Platform Account' : 'Limited Account'}
+              {profile.status === 'active' ? 'eTroy One Account' : 'Limited Account'}
             </p>
           </div>
         </div>
@@ -336,6 +336,9 @@ const ProfilePage: React.FC = () => {
         <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#000000', marginBottom: '1rem' }}>
           Connected Applications
         </h3>
+        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginTop: '-0.5rem', marginBottom: '1rem' }}>
+          Applications you have approved to access your information through eTroy OIDC.
+        </p>
         {isLoadingConnectedApplications ? (
           <LoadingState />
         ) : connectedApplications.length > 0 ? (
@@ -379,13 +382,13 @@ const ProfilePage: React.FC = () => {
                       flexShrink: 0
                     }}
                   >
-                    Disconnect
+                    Disconnect access
                   </Button>
                 </div>
 
                 <div style={{ marginBottom: '1rem' }}>
                   <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-muted)' }}>
-                    Granted scopes
+                    Approved scopes
                   </span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
                     {app.scopes.length > 0 ? app.scopes.map((scope) => (
@@ -405,14 +408,14 @@ const ProfilePage: React.FC = () => {
                       </span>
                     )) : (
                       <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
-                        No scopes reported.
+                        No approved scopes reported.
                       </span>
                     )}
                   </div>
                 </div>
 
                 <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
-                  Granted: {formatDate(app.grantedAt)}
+                  Approved: {formatDate(app.grantedAt)}
                   {app.lastUsedAt && <> - Last used: {formatDate(app.lastUsedAt)}</>}
                 </div>
               </article>
@@ -427,7 +430,7 @@ const ProfilePage: React.FC = () => {
             border: '1px dashed var(--color-border)'
           }}>
             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', margin: 0 }}>
-              No connected applications yet.
+              No applications have been granted access through eTroy OIDC yet.
             </p>
           </div>
         )}
@@ -445,7 +448,7 @@ const ProfilePage: React.FC = () => {
         onClose={() => setIsLogoutModalOpen(false)}
         onConfirm={handleLogoutAll}
         title="Sign out from all sessions?"
-        body="This will end your active sessions across this browser and other devices. You will need to sign in again to access eTroy Platform services."
+        body="This will end your active sessions across this browser and other devices. You will need to sign in again to access eTroy One services."
         confirmLabel="Sign out from all sessions"
         variant="danger"
       />

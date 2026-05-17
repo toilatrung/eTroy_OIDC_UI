@@ -197,7 +197,7 @@ const AdminClientsPage: React.FC = () => {
                     required 
                     value={newClientData.name} 
                     onChange={e => setNewClientData({...newClientData, name: e.target.value})}
-                    placeholder="e.g. Troy Mobile Application" 
+                    placeholder="e.g. eTroy One Client Application"
                     style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }} 
                   />
                 </div>

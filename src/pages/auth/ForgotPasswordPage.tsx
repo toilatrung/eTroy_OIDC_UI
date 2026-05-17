@@ -33,7 +33,7 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <Card title="Forgot Password" subtitle="Enter your email to receive a password reset link">
+    <Card title="Forgot password" subtitle="Enter your email to receive a password reset link">
       {success ? (
         <div style={{ textAlign: 'center' }}>
           <Alert type="success" message="If an account exists with this email, a reset link has been sent." />
@@ -44,7 +44,7 @@ const ForgotPasswordPage: React.FC = () => {
             fontWeight: 700, 
             textDecoration: 'underline' 
           }}>
-            Return to Login
+            Return to sign in
           </Link>
         </div>
       ) : (
@@ -62,11 +62,11 @@ const ForgotPasswordPage: React.FC = () => {
           />
           
           <Button type="submit" isLoading={isLoading}>
-            Send Reset Link
+            Send reset link
           </Button>
           
           <div style={{ marginTop: 'var(--spacing-lg)', textAlign: 'center', fontSize: '1rem', color: '#000000' }}>
-            <Link to="/login" style={{ color: 'var(--color-primary)', fontWeight: 700, textDecoration: 'underline' }}>Return to Login</Link>
+            <Link to="/login" style={{ color: 'var(--color-primary)', fontWeight: 700, textDecoration: 'underline' }}>Return to sign in</Link>
           </div>
         </form>
       )}
